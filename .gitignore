@@ -1,0 +1,13 @@
+.idea/
+*.iws
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+Thumbs.db
+[Dd]esktop.ini
+*.lnk
+
+TMP/
+logs/

@@ -1,0 +1,93 @@
+version: "3"
+services:
+  alice:
+    build: .
+    volumes:
+      # The node configuration
+      - ./participants/alice/node.conf:/app/node.conf:ro
+      # The network parameters (https://docs.corda.net/network-map.html#network-parameters) all nodes share
+      - ./shared/network-parameters:/app/network-parameters:ro
+      # The additional node infos (https://docs.corda.net/network-map.html#the-additional-node-infos-directory)
+      - ./shared/infos:/app/additional-node-infos
+      # The business network CorDapps
+      - ./shared/cordapps/membership-service-1.0.jar:/app/cordapps/membership-service-1.0.jar:ro
+      - ./shared/cordapps/membership-service-contracts-and-states-1.0.jar:/app/cordapps/membership-service-contracts-and-states-1.0.jar:ro
+      # The CorDapp containing the business logic of the participant
+      - ./shared/cordapps/ping-pong-0.1.jar:/app/cordapps/ping-pong-0.1.jar:ro
+      # The business network participant configuration stating which operator is permitted
+      - ./shared/membership-service-member.conf:/app/cordapps/config/membership-service.conf:ro
+      # The nodes certificate directory containing all three key stores
+      - ./participants/alice/certificates:/app/certificates:ro
+      # The logs to expose to the host machine
+      - ./logs/alice:/app/logs
+    ports:
+      - "10001:10001"
+      - "10002:10002"
+      - "10003:10003"
+      - "10004:10004"
+  bob:
+    build: .
+    volumes:
+      # The node configuration
+      - ./participants/bob/node.conf:/app/node.conf:ro
+      # The network parameters (https://docs.corda.net/network-map.html#network-parameters) all nodes share
+      - ./shared/network-parameters:/app/network-parameters:ro
+      # The additional node infos (https://docs.corda.net/network-map.html#the-additional-node-infos-directory)
+      - ./shared/infos:/app/additional-node-infos
+      # The business network CorDapps
+      - ./shared/cordapps/membership-service-1.0.jar:/app/cordapps/membership-service-1.0.jar:ro
+      - ./shared/cordapps/membership-service-contracts-and-states-1.0.jar:/app/cordapps/membership-service-contracts-and-states-1.0.jar:ro
+      # The CorDapp containing the business logic of the participant
+      - ./shared/cordapps/ping-pong-0.1.jar:/app/cordapps/ping-pong-0.1.jar:ro
+      # The business network participant configuration stating which operator is permitted
+      - ./shared/membership-service-member.conf:/app/cordapps/config/membership-service.conf:ro
+      # The nodes certificate directory containing all three key stores
+      - ./participants/bob/certificates:/app/certificates:ro
+      # The logs to expose to the host machine
+      - ./logs/bob:/app/logs
+    ports:
+      - "20001:20001"
+      - "20002:20002"
+      - "20003:20003"
+      - "20004:20004"
+  notary:
+    build: .
+    volumes:
+      # The node configuration
+      - ./participants/notary/node.conf:/app/node.conf:ro
+      # The network parameters (https://docs.corda.net/network-map.html#network-parameters) all nodes share
+      - ./shared/network-parameters:/app/network-parameters:ro
+      # The additional node infos (https://docs.corda.net/network-map.html#the-additional-node-infos-directory)
+      - ./shared/infos:/app/additional-node-infos
+      # The nodes certificate directory containing all three key stores
+      - ./participants/notary/certificates:/app/certificates:ro
+      # The logs to expose to the host machine
+      - ./logs/notary:/app/logs
+    ports:
+      - "30001:30001"
+      - "30002:30002"
+      - "30003:30003"
+      - "30004:30004"
+  charly:
+    build: .
+    volumes:
+      # The node configuration
+      - ./participants/charly/node.conf:/app/node.conf:ro
+      # The network parameters (https://docs.corda.net/network-map.html#network-parameters) all nodes share
+      - ./shared/network-parameters:/app/network-parameters:ro
+      # The additional node infos (https://docs.corda.net/network-map.html#the-additional-node-infos-directory)
+      - ./shared/infos:/app/additional-node-infos
+      # The business network CorDapps
+      - ./shared/cordapps/membership-service-1.0.jar:/app/cordapps/membership-service-1.0.jar:ro
+      - ./shared/cordapps/membership-service-contracts-and-states-1.0.jar:/app/cordapps/membership-service-contracts-and-states-1.0.jar:ro
+      # The business network participant configuration stating which operator is permitted
+      - ./shared/membership-service-bno.conf:/app/cordapps/config/membership-service.conf:ro
+      # The nodes certificate directory containing all three key stores
+      - ./participants/charly/certificates:/app/certificates:ro
+      # The logs to expose to the host machine
+      - ./logs/charly:/app/logs
+    ports:
+      - "40001:40001"
+      - "40002:40002"
+      - "40003:40003"
+      - "40004:40004"
